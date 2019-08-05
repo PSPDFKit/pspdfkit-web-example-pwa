@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>PSPDFKit</title>
+  <script>
+    // Register the Service Worker to enable offline capabilities
+    // and caching.
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./serviceWorker.js')
+      })
+    }
+  </script>
+
+  <link rel="stylesheet" href="./styles/index.css">
+
+  <!-- Add to home screen feature -->
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Add to home screen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#267ad3">
+  <meta name="apple-mobile-web-app-title" content="PSPDFKit for Web PWA">
+  <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
+
+  <!-- Tile Icon for Windows -->
+  <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#267ad3">
+
+  <!-- Them color for Android -->
+  <meta name="theme-color" content="#267ad3">
+</head>
+
+<body>
+  <!-- Initialize the sidebar before we render it -->
+  <script type="text/javascript">
+    if (document.body.clientWidth < 1080) {
+      document.querySelector("html").classList.add("sidebar-hidden");
+    } else {
+      document.querySelector("html").classList.add("sidebar-visible");
+    }
+  </script>
+
+  <div class="App">
+    <div class="App-Sidebar">
+      <p>The
+        <a href="https://github.com/PSPDFKit/pspdfkit-web-example-pwa" target="_blank" rel="noopener">PWA example</a> app comes with an offline IndexedDB document storage. You can fill this storage by either downloading
+        a remote PDF or selecting one from your local file system.</p>
+
+      <div class="App-clearCaches">
+        <button class="App-clearCaches--sw">Clear service worker</button> |
+        <button class="App-clearCaches--files">Delete files</button>
+      </div>
+
+      <div class="FileManager">
+        <label class="Button">
+          <span class="FilePicker">
+            <input type="file" name="file" class="FilePicker-input" accept="application/pdf" />
+            <span>Open Local File</span>
+          </span>
+        </label>
+        <div class="SeparatorWithText">
+          <div class="SeparatorWithText-text">or</div>
+        </div>
+        <form>
+          <label>
+            <input type="url" name="file" placeholder="https://example.com/example.pdf" class="URLPicker-input" />
+            <button class="Button" id="Download-Remote">Download Remote File</button>
+          </label>
+        </form>
+      </div>
+
+      <ul class="App-filesList"></ul>
+    </div>
+
+    <div class="App-Viewer">
+      <div class="App-Menu">
+        <div class="App-Menu-Sticky-Container">
+          <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Sidebar" aria-label="Toggle Sidebar" aria-controls="sidebar"
+            aria-expanded="false">
+            ☰
+          </button>
+
+          <h1 class="App-Menu-Title">
+            PSPDFKit for Web PWA
+            <span class="OnlineStatus">offline</span>
+          </h1>
+        </div>
+      </div>
+
+      <div class="Viewer"></div>
+    </div>
+  </div>
+
+  <script src="./scripts/vendor/pspdfkit.js"></script>
+  <script src="./scripts/vendor/idb.js"></script>
+  <script src="./scripts/PSPDFKitFileStore.js"></script>
+  <script src="./scripts/app.js"></script>
+</body>
+
+</html>
